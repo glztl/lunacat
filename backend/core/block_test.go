@@ -25,28 +25,51 @@ func TestCreateBlock(t *testing.T) {
 	// fmt.Printf("Hash: %s\n", block2.Hash)
 
 	// 1. 初始化区块链
+	// bc := NewBlockchain()
+	// fmt.Println(" 初始化 Lunacat 区块链成功!")
+	// fmt.Println("当前区块链上区块数量: ", len(bc.Blocks))
+
+	// // 2. 添加第一个新区块
+	// bc.AddBlock("Send 5 Lunacat to Alice")
+	// fmt.Println("\n 添加第一个新区块成功!")
+	// fmt.Println("当前区块链上区块数量: " , len(bc.Blocks))
+
+	// // 3. 添加第二个新区块
+	// bc.AddBlock("Send 3 Lunacat to Bob")
+	// fmt.Println("\n 添加第二个新区块成功!")
+	// fmt.Println("当前区块链上区块数量: " , len(bc.Blocks))
+
+	// // 4. 打印整条链
+	// fmt.Println("\n 打印整条 Lunacat 区块链: ")
+	// for i, block := range bc.Blocks {
+	// 	fmt.Printf("\n ---- 区块 %d ---- \n", i)
+	// 	fmt.Printf("Index: %d\n", block.Index)
+	// 	fmt.Printf("Timestamp: %s\n", block.Timestamp)
+	// 	fmt.Printf("Data: %s\n", block.Data)
+	// 	fmt.Printf("PrevHash: %s\n", block.PrevHash)
+	// 	fmt.Printf("Hash: %s\n", block.Hash)
+	// }
+
+	// 1. 初始化区块链 （创世区块也会挖矿）
+	fmt.Println("===== 初始化 Lunacat 区块链成功! =====")
 	bc := NewBlockchain()
-	fmt.Println(" 初始化 Lunacat 区块链成功!")
-	fmt.Println("当前区块链上区块数量: ", len(bc.Blocks))
 
 	// 2. 添加第一个新区块
+	fmt.Println("\n===== 添加第一个新区块成功! =====")
 	bc.AddBlock("Send 5 Lunacat to Alice")
-	fmt.Println("\n 添加第一个新区块成功!")
-	fmt.Println("当前区块链上区块数量: " , len(bc.Blocks))
 
 	// 3. 添加第二个新区块
+	fmt.Println("\n===== 添加第二个新区块成功! =====")
 	bc.AddBlock("Send 3 Lunacat to Bob")
-	fmt.Println("\n 添加第二个新区块成功!")
-	fmt.Println("当前区块链上区块数量: " , len(bc.Blocks))
 
-	// 4. 打印整条链
-	fmt.Println("\n 打印整条 Lunacat 区块链: ")
+	// 4. 验证所有区块的 PoW 是否有效
+	fmt.Println("\n===== 验证所有区块的 PoW 是否有效 =====")
 	for i, block := range bc.Blocks {
-		fmt.Printf("\n ---- 区块 %d ---- \n", i)
-		fmt.Printf("Index: %d\n", block.Index)
-		fmt.Printf("Timestamp: %s\n", block.Timestamp)
-		fmt.Printf("Data: %s\n", block.Data)
-		fmt.Printf("PrevHash: %s\n", block.PrevHash)
-		fmt.Printf("Hash: %s\n", block.Hash)
+		pow := NewProofOfWork(&block)
+		if pow.Validate() {
+			fmt.Printf("区块 %d 的 PoW 验证成功! Hash: %s\n", i, block.Hash)
+		} else {
+			fmt.Printf("区块 %d 的 PoW 验证失败! Hash: %s\n", i, block.Hash)
+		}
 	}
 }
