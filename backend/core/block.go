@@ -35,7 +35,7 @@ func calculateHash(block Block) string {
 }
 
 // 创建一个新区块，并自动计算哈希
-func CreateBlock(index int, prevHash string, data string) Block {
+func CreateBlock(index int, prevHash string, data string) *Block {
 	block := Block{
 		Index:     index,
 		Timestamp: time.Now().String(),
@@ -50,5 +50,5 @@ func CreateBlock(index int, prevHash string, data string) Block {
 	// 计算当前区块哈希
 	block.Nonce = nonce
 	block.Hash = hash
-	return block
+	return &block
 }
